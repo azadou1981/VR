@@ -1,0 +1,19 @@
+{
+    "name": "Oasis.Editor",
+    "rootNamespace": "Oasis.EditorTools",
+    "references": [
+        "Oasis",
+        "Unity.XR.CoreUtils"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

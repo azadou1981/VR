@@ -18,9 +18,11 @@ namespace Oasis.Core
 
             if (_origin == null)
             {
-                Debug.LogError("PlayerSpawner : aucun XR Origin trouvé dans la scène.", this);
+                Debug.LogError("PlayerSpawner : aucun XR Origin trouve dans la scene.", this);
                 return;
             }
+
+            Debug.Log($"PlayerSpawner : demarre, XR Origin = '{_origin.name}'.", this);
 
             var spawn = BestSpawnPoint();
             if (spawn == null)
@@ -34,6 +36,8 @@ namespace Oasis.Core
             var headHeight = Vector3.up * _origin.CameraInOriginSpacePos.y;
             _origin.MatchOriginUpCameraForward(Vector3.up, spawn.transform.forward);
             _origin.MoveCameraToWorldLocation(spawn.transform.position + headHeight);
+
+            Debug.Log($"PlayerSpawner : joueur place sur '{spawn.name}' en {spawn.transform.position}.", this);
         }
 
         private static SpawnPoint BestSpawnPoint()
