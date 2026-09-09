@@ -16,7 +16,11 @@
 
 **Pourquoi une asmdef.** Sans elle, tout notre code atterrit dans `Assembly-CSharp` avec les scripts du template : chaque modification d'un seul fichier recompile l'ensemble, et l'attente grossit à chaque script ajouté. Avec elle, Unity ne recompile que `Oasis`. C'est aussi ce qui rend la frontière « plateforme / mondes » réelle plutôt que déclarative : un monde qui voudra contourner les systèmes de la plateforme devra le faire explicitement, en ajoutant une référence d'assembly. L'équivalent Fabric le plus proche est un sous-module Gradle, ou une frontière de module Java.
 
-  Attention : le `.meta` de l'asmdef n'existe pas encore. Unity le génère à la prochaine ouverture de l'Éditeur — il faudra le committer (c'est lui qui porte le GUID de l'assembly).
+**Import validé en mode batch** (`Unity.exe -batchmode -quit`), sortie code 0. Aucune erreur de compilation, l'asmdef est reconnu et ses références résolues, les `.meta` sont générés et committés.
+
+  Limite à connaître : l'assembly `Oasis` n'est pas encore *compilée*, puisqu'elle ne contient aucun script. Unity a validé la syntaxe et la résolution des références, pas leur usage réel. La vraie validation viendra avec le premier `.cs`. Les quatre noms d'assembly ont été relevés directement dans les asmdef des packages, pas devinés.
+
+  À retenir : `Unity.exe -batchmode -quit -projectPath <projet> -logFile <log>` permet de vérifier qu'un projet compile sans ouvrir l'Éditeur. Utile pour ne pas te déranger à chaque changement de script. Ne marche pas si l'Éditeur est déjà ouvert (verrou `Temp/UnityLockfile`).
 
 ### Décisions prises
 
@@ -44,6 +48,8 @@ Réseau (Mirror vs FishNet) : toujours non tranché, comme prévu en phase 2.
 
   Note : XR Simulation (AR Foundation) simule des environnements AR, pas de la VR. L'outil sans casque qui nous concerne est le **XR Device Simulator**, livré avec XRI, qu'on garde.
 - Config XR déjà correcte pour PCVR : `OculusTouchControllerProfile` activé sur Standalone, loader OpenXR en place.
+
+- **`OpenXRPackageSettings.asset` bouge tout seul.** À l'import, Unity a repointé trois entrées Android XR vers des doublons strictement identiques du même fichier (mêmes noms, mêmes états, mêmes versions) : du bruit, aucun effet. Attends-toi à revoir ce diff de temps en temps. Les trois viennent du package `androidxr-openxr`, donc ça disparaîtra avec son retrait.
 - `m_SerializationMode: 2` (Force Text) — condition nécessaire pour que la fusion YAML marche. À ne pas changer.
 
 ### Prochaine étape
