@@ -10,7 +10,7 @@
 
 - `.gitignore` : `Library/` (2,4 Go), `Temp/`, `Logs/`, `UserSettings/`, et les `.csproj`/`.slnx` qu'Unity régénère à chaque ouverture.
 - `.gitattributes` : 169 binaires en LFS (png, fbx, exr, wav, tif, webm, ttf, mp3), vérifié fichier par fichier avant le commit — zéro binaire stocké en clair.
-- `core.autocrlf` forcé à `false` **localement**. Le gitconfig système de Git for Windows le mettait à `true`, ce qui réécrivait en CRLF des YAML qu'Unity relit en LF.
+- Fins de ligne forcées en LF via `* text=auto eol=lf` dans `.gitattributes`. Git for Windows poussait au CRLF de deux façons : `core.autocrlf=true` dans le gitconfig système, et `core.eol=native`. Les deux sont neutralisés localement, mais le réglage est posé dans `.gitattributes` parce que `.git/config` ne se clone pas — sinon le problème reviendrait à chaque nouvelle machine.
 - Driver de fusion `UnityYAMLMerge` branché, avec `--fallback-none`.
 - `Assets/Scripts/` créé.
 
