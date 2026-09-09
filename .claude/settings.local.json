@@ -15,7 +15,14 @@
       "Bash(git add*)",
       "Bash(git commit*)",
       "Bash(composer*)",
-      "Bash(php bin/console*)"
+      "Bash(php bin/console*)",
+      "Bash(git branch *)",
+      "Bash(git ls-remote *)"
+    ],
+    "deny": [
+      "Read(.env)",
+      "Read(backend/.env.local)",
+      "Read(**/secrets/**)"
     ],
     "ask": [
       "Edit(Assets/Scenes/**)",
@@ -24,11 +31,6 @@
       "Bash(git push*)",
       "Bash(git reset*)",
       "Bash(rm*)"
-    ],
-    "deny": [
-      "Read(.env)",
-      "Read(backend/.env.local)",
-      "Read(**/secrets/**)"
     ]
   }
 }
