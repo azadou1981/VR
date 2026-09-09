@@ -17,9 +17,7 @@
       "Bash(composer*)",
       "Bash(php bin/console*)",
       "Bash(git branch *)",
-      "Bash(git ls-remote *)",
-      "Bash('C:/Program Files/Unity/Hub/Editor/6000.3.23f1/Editor/Unity.exe' -batchmode -quit -projectPath 'C:/Users/azadt/My project' -executeMethod Oasis.EditorTools.HubSceneBuilder.BuildHub -logFile C:/Users/azadt/AppData/Local/Temp/claude/C--Users-azadt-My-project/d01474de-f2a9-4a64-8910-dace37269a2b/scratchpad/hub.log)",
-      "Bash(echo \"code de sortie : $?\")"
+      "Bash(git ls-remote *)"
     ],
     "deny": [
       "Read(.env)",

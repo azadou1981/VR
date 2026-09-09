@@ -99,6 +99,20 @@ Vignettage branché sur les déplacements continus seulement. La téléportation
 
 **Méthode de travail retenue.** Tout ce qui est répétitif passe par un script d'éditeur, lancé soit par le menu **Oasis** dans l'Éditeur, soit par moi en mode batch quand Unity est fermé. Lou ne clique plus dans la Hierarchy.
 
+### Direction artistique du hub
+
+Référence donnée par Lou : le hub de Ready Player One. Blanc, moderne, futuriste, très grand, avec des portails bleus vers les activités.
+
+Traduction en géométrie, générée par `HubEnvironmentBuilder` : une rotonde à 12 pans, 20 m de rayon, murs de 10 m, **ouverte sur le ciel** — pas de plafond, c'est plus beau et ça ne coûte rien. Six portails bleus répartis un panneau sur deux.
+
+Deux choix qui font la différence sur le rendu, et qui ne sont pas évidents :
+
+Le blanc n'est pas un blanc pur mais `0.92` — à 1.0 les surfaces se clippent et tout le relief disparaît. L'ambiante est remontée à `1.25`, sinon les faces qui ne prennent pas le soleil virent au gris sale et le décor a l'air terne.
+
+L'émissif des portails est en HDR au-delà de 1 (`0.2, 1.4, 3.2`). C'est ce qui déclenche le bloom. Et chaque portail porte **sa propre lumière ponctuelle** : sans elle le bleu resterait un rectangle plat, avec elle il déborde sur le sol blanc. C'est ça qui donne l'effet.
+
+**Coût perf** (règle 4) : 26 MeshRenderer, 7 lumières dont 6 ponctuelles sans ombres, 2 matériaux. Négligeable, on est très loin du budget 90 fps. Les ombres sont désactivées sur les lumières de portail exprès : six sources d'ombres dynamiques coûteraient cher pour un gain visuel nul.
+
 ### Prochaine étape
 
 Fin de la phase 0, ce qui reste passe par Lou et par le casque :

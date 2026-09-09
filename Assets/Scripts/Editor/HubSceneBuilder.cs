@@ -2,14 +2,13 @@ using Oasis.Core;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.XR.Interaction.Toolkit.Locomotion.Teleportation;
+using UnityEngine.Rendering;
 
 namespace Oasis.EditorTools
 {
     /// <summary>
-    /// Génère la scène du hub : sol téléportable, lumière, rig VR et point
-    /// d'apparition. Squelette seulement — les portails viendront en phase 3.
+    /// Génère la scène du hub de zéro : architecture, éclairage, rig VR,
+    /// confort et point d'apparition. Relançable à volonté.
     /// </summary>
     public static class HubSceneBuilder
     {
@@ -30,44 +29,41 @@ namespace Oasis.EditorTools
 
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
 
-            CreateLight();
-            CreateGround();
+            ConfigureLighting();
+            HubEnvironmentBuilder.Build();
             PrefabUtility.InstantiatePrefab(rig, scene);
             ComfortSetup.AddVignette();
             CreateSpawnPoint();
 
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene, ScenePath);
+            AssetDatabase.SaveAssets();
 
             Debug.Log("HubSceneBuilder : scene creee a " + ScenePath + ".");
         }
 
-        private static void CreateLight()
+        private static void ConfigureLighting()
         {
             var go = new GameObject("Soleil");
-            go.transform.rotation = Quaternion.Euler(50f, -30f, 0f);
+            go.transform.rotation = Quaternion.Euler(55f, -35f, 0f);
 
             var light = go.AddComponent<Light>();
             light.type = LightType.Directional;
-            light.intensity = 1f;
+            light.color = new Color(1f, 0.98f, 0.95f);
+            light.intensity = 1.1f;
             light.shadows = LightShadows.Soft;
-        }
 
-        private static void CreateGround()
-        {
-            var go = GameObject.CreatePrimitive(PrimitiveType.Plane);
-            go.name = "Sol";
-            // Le Plane fait 10 m de cote : x5 donne 50 m, large pour un hub.
-            go.transform.localScale = new Vector3(5f, 1f, 5f);
-
-            // Sans zone de teleportation, le rig ne peut pas se deplacer.
-            go.AddComponent<TeleportationArea>();
+            // Sans ambiante remontee, un decor blanc vire au gris sale : les
+            // faces qui ne recoivent pas le soleil n'ont plus rien.
+            RenderSettings.ambientMode = AmbientMode.Skybox;
+            RenderSettings.ambientIntensity = 1.25f;
         }
 
         private static void CreateSpawnPoint()
         {
             var go = new GameObject("Spawn Point");
-            go.transform.position = Vector3.zero;
+            // Legerement en retrait du centre, face aux portails.
+            go.transform.SetPositionAndRotation(new Vector3(0f, 0f, -6f), Quaternion.identity);
             go.AddComponent<SpawnPoint>();
             go.AddComponent<PlayerSpawner>();
         }
