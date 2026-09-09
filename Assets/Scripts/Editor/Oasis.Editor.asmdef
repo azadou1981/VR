@@ -3,7 +3,8 @@
     "rootNamespace": "Oasis.EditorTools",
     "references": [
         "Oasis",
-        "Unity.XR.CoreUtils"
+        "Unity.XR.CoreUtils",
+        "Unity.XR.Interaction.Toolkit"
     ],
     "includePlatforms": [
         "Editor"

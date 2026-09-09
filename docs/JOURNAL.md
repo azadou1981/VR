@@ -78,6 +78,27 @@ Le simulateur n'est pas inscrit dans la scène : il s'instancie au lancement, un
 
 À noter : ça valide les *interactions*, pas la chaîne Quest→PC. Le test casque reste nécessaire pour clore la phase 0.
 
+### Premier code de la plateforme
+
+`Assets/Scripts/Core/` — assembly `Oasis` :
+
+- `SpawnPoint` : marque un endroit d'apparition, sa rotation donne la direction du regard.
+- `PlayerSpawner` : y place le XR Origin au `Start`. Vise la hauteur du casque et pas le sol, sinon la caméra se retrouve enterrée — même calcul que la téléportation XRI.
+
+`Assets/Scripts/Editor/` — assembly `Oasis.Editor`, éditeur uniquement :
+
+- `SceneSetup` : prépare le point d'apparition dans `SampleScene`.
+- `HubSceneBuilder` : génère `Assets/Scenes/Hub.unity` de zéro — sol téléportable de 50 m, lumière, rig VR, vignettage, point d'apparition. Idempotent.
+- `ComfortSetup` : ajoute le vignettage anti-nausée et le branche aux systèmes de locomotion continus.
+
+**Ce que le rig XRI fournit déjà**, vérifié en résolvant les GUID du prefab : snap turn, continuous turn, téléportation, saut, gravité, escalade, grab-move, interacteurs poke/ray/gaze. Ne pas réécrire tout ça. **Le seul manque était le vignettage**, ajouté.
+
+**Décision : le code plateforme ne dépend jamais d'un échantillon Unity.** `DynamicMoveProvider` vient du sample Starter Assets, pas du package. On cible sa classe de base `ContinuousMoveProvider`, qui est dans le package : le polymorphisme retrouve l'instance, et réimporter ou supprimer l'échantillon ne casse rien.
+
+Vignettage branché sur les déplacements continus seulement. La téléportation est instantanée et le snap turn est discret : les vignetter dégraderait la lisibilité sans réduire la nausée.
+
+**Méthode de travail retenue.** Tout ce qui est répétitif passe par un script d'éditeur, lancé soit par le menu **Oasis** dans l'Éditeur, soit par moi en mode batch quand Unity est fermé. Lou ne clique plus dans la Hierarchy.
+
 ### Prochaine étape
 
 Fin de la phase 0, ce qui reste passe par Lou et par le casque :
