@@ -62,6 +62,16 @@ GitHub CLI installé (`gh` 2.100.0, portée utilisateur, compte `azadou1981`, po
 
 Rappel : `git push` est dans la liste « demander d'abord » de `.claude/settings.local.json`. C'est volontaire, mais ça veut dire que Lou pousse à la main. À changer si ça devient pénible.
 
+### Travailler sans le casque : le simulateur
+
+XRI livre un **XR Interaction Simulator** qui pilote le rig VR à la souris et au clavier : tête, deux manettes, grab, téléportation. Ça permet de valider toute la couche interaction sans casque, et donc de continuer quand le Quest charge ou n'est pas dispo.
+
+État constaté dans `Assets/XRI/Settings/Resources/XRDeviceSimulatorSettings.asset` : `m_AutomaticallyInstantiateSimulatorPrefab: 0` (désactivé) et `m_SimulatorPrefab: {fileID: 0}` (aucun prefab assigné). L'échantillon n'est donc pas encore importé.
+
+Activation, sans toucher à la scène : **Edit → Project Settings → XR Plug-in Management → XR Interaction Toolkit**, cocher **« Use XR Interaction Simulator in scenes »**. Unity propose alors d'importer l'échantillon, répondre **Ok** — il assigne le prefab tout seul. Le simulateur s'instancie ensuite à chaque Play, et uniquement dans l'Éditeur (`m_AutomaticallyInstantiateInEditorOnly: 1`), donc jamais dans un build.
+
+À noter : ça valide les *interactions*, pas la chaîne Quest→PC. Le test casque reste nécessaire pour clore la phase 0.
+
 ### Prochaine étape
 
 Fin de la phase 0, ce qui reste passe par Lou et par le casque :
