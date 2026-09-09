@@ -113,6 +113,20 @@ L'émissif des portails est en HDR au-delà de 1 (`0.2, 1.4, 3.2`). C'est ce qui
 
 **Coût perf** (règle 4) : 26 MeshRenderer, 7 lumières dont 6 ponctuelles sans ombres, 2 matériaux. Négligeable, on est très loin du budget 90 fps. Les ombres sont désactivées sur les lumières de portail exprès : six sources d'ombres dynamiques coûteraient cher pour un gain visuel nul.
 
+### Post-traitement : la cause du rendu plat
+
+Premier jet du hub jugé « pas beau, juste des murs blancs ». Diagnostic : **la scène n'avait aucun volume de post-traitement**. Vérifié aussi que `Bloom` est à `intensity: 0` dans `DefaultVolumeProfile`. Sans bloom, un matériau émissif est un aplat de couleur — les portails ne pouvaient pas briller.
+
+`HubPostProcessing` crée `Assets/Settings/Hub_PostProcess.asset` et un volume global : bloom (seuil 0.8, intensité 1.1, filtrage haute qualité), tonemapping et légers ajustements colorimétriques. Il active aussi le post-traitement sur la caméra XR — enregistré comme override de prefab, donc invisible à un `grep m_RenderPostProcessing: 1`, il faut chercher le `propertyPath`.
+
+**Tonemapping Neutral et pas ACES.** ACES écrase les hautes lumières. Tout le décor étant blanc, on perdrait exactement ce qu'on cherche à montrer.
+
+**Effets volontairement absents, parce que nocifs en VR** : vignette d'écran, aberration chromatique, grain, motion blur, profondeur de champ, lens distortion. Ils cassent la stéréo, font scintiller l'image ou provoquent la nausée. Vérifié : dans le profil par défaut ils sont tous à intensité 0, donc inoffensifs — ne pas les réveiller. Le seul vignettage acceptable est le tunneling, qui est de la géométrie 3D dans la scène.
+
+Détail architectural ajouté par `HubEnvironmentBuilder` : montants lumineux aux joints des panneaux, corniche en haut des murs, médaillon central au sol. Matériau `Hub_Liseré`, émissif bien plus faible que les portails — les lisérés dessinent l'architecture, ils ne volent pas la vedette.
+
+**Coût perf** : 50 MeshRenderer, 7 lumières, 3 matériaux. Toujours négligeable.
+
 ### Prochaine étape
 
 Fin de la phase 0, ce qui reste passe par Lou et par le casque :

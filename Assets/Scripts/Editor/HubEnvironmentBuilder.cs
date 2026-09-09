@@ -21,6 +21,7 @@ namespace Oasis.EditorTools
 
             CreateFloor(root.transform);
             CreateWalls(root.transform);
+            CreateTrim(root.transform);
             CreatePortals(root.transform);
         }
 
@@ -58,6 +59,52 @@ namespace Oasis.EditorTools
                 panel.transform.localScale = new Vector3(width, WallHeight, WallThickness);
                 Paint(panel, HubMaterials.White);
             }
+        }
+
+        /// <summary>
+        /// Lisérés lumineux : montants verticaux aux joints des panneaux et
+        /// corniche en haut des murs. C'est ce qui donne une ligne au décor.
+        /// </summary>
+        private static void CreateTrim(Transform parent)
+        {
+            var group = new GameObject("Liserés");
+            group.transform.SetParent(parent, false);
+
+            var width = 2f * Radius * Mathf.Tan(Mathf.PI / Sides) + 0.1f;
+
+            for (var i = 0; i < Sides; i++)
+            {
+                // Décalé d'un demi-pas : on vise le joint, pas le centre.
+                var angle = (i + 0.5f) * 2f * Mathf.PI / Sides;
+                var radial = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle));
+
+                var post = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                post.name = "Montant " + (i + 1);
+                post.transform.SetParent(group.transform, false);
+                post.transform.localPosition = radial * (Radius - 0.3f) + Vector3.up * (WallHeight * 0.5f);
+                post.transform.localRotation = Quaternion.LookRotation(-radial);
+                post.transform.localScale = new Vector3(0.18f, WallHeight, 0.18f);
+                Paint(post, HubMaterials.Strip);
+                Object.DestroyImmediate(post.GetComponent<Collider>());
+
+                var cornice = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                cornice.name = "Corniche " + (i + 1);
+                cornice.transform.SetParent(group.transform, false);
+                cornice.transform.localPosition = radial * (Radius - 0.35f) + Vector3.up * (WallHeight - 0.4f);
+                cornice.transform.localRotation = Quaternion.LookRotation(-radial);
+                cornice.transform.localScale = new Vector3(width, 0.22f, 0.22f);
+                Paint(cornice, HubMaterials.Strip);
+                Object.DestroyImmediate(cornice.GetComponent<Collider>());
+            }
+
+            // Disque central : donne un point de mire et casse le sol vide.
+            var medallion = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
+            medallion.name = "Médaillon central";
+            medallion.transform.SetParent(parent, false);
+            medallion.transform.localScale = new Vector3(7f, 0.02f, 7f);
+            medallion.transform.localPosition = new Vector3(0f, 0.01f, 0f);
+            Paint(medallion, HubMaterials.Strip);
+            Object.DestroyImmediate(medallion.GetComponent<Collider>());
         }
 
         private static void CreatePortals(Transform parent)

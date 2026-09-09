@@ -33,6 +33,7 @@ namespace Oasis.EditorTools
             HubEnvironmentBuilder.Build();
             PrefabUtility.InstantiatePrefab(rig, scene);
             ComfortSetup.AddVignette();
+            HubPostProcessing.Setup();
             CreateSpawnPoint();
 
             EditorSceneManager.MarkSceneDirty(scene);

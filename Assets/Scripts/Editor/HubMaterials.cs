@@ -12,9 +12,11 @@ namespace Oasis.EditorTools
         private const string Folder = "Assets/Materials";
         private const string WhitePath = Folder + "/Hub_Blanc.mat";
         private const string PortalPath = Folder + "/Hub_Portail.mat";
+        private const string StripPath = Folder + "/Hub_Liseré.mat";
 
         public static Material White => GetOrCreate(WhitePath, ConfigureWhite);
         public static Material Portal => GetOrCreate(PortalPath, ConfigurePortal);
+        public static Material Strip => GetOrCreate(StripPath, ConfigureStrip);
 
         private static Material GetOrCreate(string path, System.Action<Material> configure)
         {
@@ -50,6 +52,19 @@ namespace Oasis.EditorTools
             m.SetColor("_BaseColor", new Color(0.92f, 0.93f, 0.95f));
             m.SetFloat("_Smoothness", 0.55f);
             m.SetFloat("_Metallic", 0f);
+        }
+
+        private static void ConfigureStrip(Material m)
+        {
+            m.SetColor("_BaseColor", new Color(0.8f, 0.9f, 1f));
+            m.SetFloat("_Smoothness", 0.7f);
+            m.SetFloat("_Metallic", 0f);
+
+            // Bien plus faible que les portails : les lisérés dessinent
+            // l'architecture, ils ne doivent pas voler la vedette.
+            m.EnableKeyword("_EMISSION");
+            m.globalIlluminationFlags = MaterialGlobalIlluminationFlags.RealtimeEmissive;
+            m.SetColor("_EmissionColor", new Color(0.5f, 0.8f, 1.2f));
         }
 
         private static void ConfigurePortal(Material m)
