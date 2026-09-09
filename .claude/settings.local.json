@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(**)",
+      "Edit(Assets/Scripts/**)",
+      "Edit(backend/**)",
+      "Edit(docs/**)",
+      "Edit(Packages/manifest.json)",
+      "Edit(.gitignore)",
+      "Edit(.gitattributes)",
+      "Edit(CLAUDE.md)",
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git add*)",
+      "Bash(git commit*)",
+      "Bash(composer*)",
+      "Bash(php bin/console*)"
+    ],
+    "ask": [
+      "Edit(Assets/Scenes/**)",
+      "Edit(Assets/Prefabs/**)",
+      "Edit(ProjectSettings/**)",
+      "Bash(git push*)",
+      "Bash(git reset*)",
+      "Bash(rm*)"
+    ],
+    "deny": [
+      "Read(.env)",
+      "Read(backend/.env.local)",
+      "Read(**/secrets/**)"
+    ]
+  }
+}

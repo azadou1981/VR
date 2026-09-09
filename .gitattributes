@@ -1,0 +1,129 @@
+# Normalisation des fins de ligne : LF dans le dépôt, natif à la copie.
+* text=auto
+
+# ============================================================
+#  YAML Unity — reste en TEXTE, pas en LFS
+# ============================================================
+# Ces fichiers sont du YAML. On les garde en texte pour deux
+# raisons : ils se diffent, et UnityYAMLMerge sait les fusionner.
+# En LFS, tout conflit sur une scène deviendrait « choisis A ou B »,
+# c'est-à-dire une perte de travail garantie.
+*.unity               merge=unityyamlmerge
+*.prefab              merge=unityyamlmerge
+*.asset               merge=unityyamlmerge
+*.mat                 merge=unityyamlmerge
+*.anim                merge=unityyamlmerge
+*.controller          merge=unityyamlmerge
+*.overrideController  merge=unityyamlmerge
+*.physicMaterial      merge=unityyamlmerge
+*.physicsMaterial2D   merge=unityyamlmerge
+*.preset              merge=unityyamlmerge
+*.lighting            merge=unityyamlmerge
+*.scenetemplate       merge=unityyamlmerge
+*.mask                merge=unityyamlmerge
+*.mixer               merge=unityyamlmerge
+*.playable            merge=unityyamlmerge
+*.signal              merge=unityyamlmerge
+*.guiskin             merge=unityyamlmerge
+*.fontsettings        merge=unityyamlmerge
+*.flare               merge=unityyamlmerge
+*.brush               merge=unityyamlmerge
+*.terrainlayer        merge=unityyamlmerge
+*.spriteatlas         merge=unityyamlmerge
+*.renderTexture       merge=unityyamlmerge
+*.shadervariants      merge=unityyamlmerge
+*.meta                merge=unityyamlmerge
+
+# ============================================================
+#  Code et données texte
+# ============================================================
+*.cs              text diff=csharp
+*.php             text diff=php
+*.shader          text
+*.hlsl            text
+*.cginc           text
+*.compute         text
+*.shadergraph     text
+*.shadersubgraph  text
+*.asmdef          text
+*.asmref          text
+*.json            text
+*.md              text
+*.yml             text
+*.yaml            text
+*.xml             text
+*.txt             text
+*.gitignore       text
+*.gitattributes   text
+
+# ============================================================
+#  Git LFS — binaires
+# ============================================================
+# Tout ce qui suit ne se diffe pas et pèse lourd. Sans LFS, chaque
+# version d'une texture reste dans l'historique pour toujours.
+
+# Modèles 3D
+*.fbx   filter=lfs diff=lfs merge=lfs -text
+*.FBX   filter=lfs diff=lfs merge=lfs -text
+*.obj   filter=lfs diff=lfs merge=lfs -text
+*.blend filter=lfs diff=lfs merge=lfs -text
+*.dae   filter=lfs diff=lfs merge=lfs -text
+*.3ds   filter=lfs diff=lfs merge=lfs -text
+*.glb   filter=lfs diff=lfs merge=lfs -text
+*.gltf  filter=lfs diff=lfs merge=lfs -text
+*.ma    filter=lfs diff=lfs merge=lfs -text
+*.mb    filter=lfs diff=lfs merge=lfs -text
+*.max   filter=lfs diff=lfs merge=lfs -text
+*.c4d   filter=lfs diff=lfs merge=lfs -text
+
+# Textures et images
+*.png   filter=lfs diff=lfs merge=lfs -text
+*.PNG   filter=lfs diff=lfs merge=lfs -text
+*.jpg   filter=lfs diff=lfs merge=lfs -text
+*.JPG   filter=lfs diff=lfs merge=lfs -text
+*.jpeg  filter=lfs diff=lfs merge=lfs -text
+*.tga   filter=lfs diff=lfs merge=lfs -text
+*.TGA   filter=lfs diff=lfs merge=lfs -text
+*.tif   filter=lfs diff=lfs merge=lfs -text
+*.tiff  filter=lfs diff=lfs merge=lfs -text
+*.psd   filter=lfs diff=lfs merge=lfs -text
+*.PSD   filter=lfs diff=lfs merge=lfs -text
+*.bmp   filter=lfs diff=lfs merge=lfs -text
+*.gif   filter=lfs diff=lfs merge=lfs -text
+*.dds   filter=lfs diff=lfs merge=lfs -text
+*.exr   filter=lfs diff=lfs merge=lfs -text
+*.EXR   filter=lfs diff=lfs merge=lfs -text
+*.hdr   filter=lfs diff=lfs merge=lfs -text
+*.cubemap filter=lfs diff=lfs merge=lfs -text
+
+# Audio
+*.wav   filter=lfs diff=lfs merge=lfs -text
+*.WAV   filter=lfs diff=lfs merge=lfs -text
+*.mp3   filter=lfs diff=lfs merge=lfs -text
+*.ogg   filter=lfs diff=lfs merge=lfs -text
+*.aif   filter=lfs diff=lfs merge=lfs -text
+*.aiff  filter=lfs diff=lfs merge=lfs -text
+*.flac  filter=lfs diff=lfs merge=lfs -text
+
+# Vidéo
+*.mp4   filter=lfs diff=lfs merge=lfs -text
+*.mov   filter=lfs diff=lfs merge=lfs -text
+*.webm  filter=lfs diff=lfs merge=lfs -text
+*.avi   filter=lfs diff=lfs merge=lfs -text
+*.mpg   filter=lfs diff=lfs merge=lfs -text
+*.mpeg  filter=lfs diff=lfs merge=lfs -text
+
+# Polices
+*.ttf   filter=lfs diff=lfs merge=lfs -text
+*.TTF   filter=lfs diff=lfs merge=lfs -text
+*.otf   filter=lfs diff=lfs merge=lfs -text
+*.woff  filter=lfs diff=lfs merge=lfs -text
+*.woff2 filter=lfs diff=lfs merge=lfs -text
+
+# Binaires natifs
+*.dll   filter=lfs diff=lfs merge=lfs -text
+*.so    filter=lfs diff=lfs merge=lfs -text
+*.dylib filter=lfs diff=lfs merge=lfs -text
+*.a     filter=lfs diff=lfs merge=lfs -text
+*.lib   filter=lfs diff=lfs merge=lfs -text
+*.bundle filter=lfs diff=lfs merge=lfs -text

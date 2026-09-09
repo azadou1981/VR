@@ -1,0 +1,90 @@
+# ============================================================
+#  Unity
+# ============================================================
+# Caches et dossiers régénérés par l'Éditeur. Library/ fait
+# plusieurs Go et se reconstruit tout seul : jamais versionné.
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+[Rr]ecordings/
+
+# Les .meta se versionnent TOUJOURS avec leur asset : ce sont eux
+# qui portent le GUID. Perdre un .meta casse toutes les références
+# de la scène vers l'asset.
+!/[Aa]ssets/**/*.meta
+
+/[Aa]ssets/AssetStoreTools*
+/[Aa]ssets/Plugins/Editor/JetBrains*
+
+# ============================================================
+#  Projets et solutions générés
+# ============================================================
+# Unity les régénère à chaque ouverture, les versionner ne crée
+# que des conflits.
+*.csproj
+*.unityproj
+*.sln
+*.slnx
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.tmp
+
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# ============================================================
+#  IDE
+# ============================================================
+.vs/
+.idea/
+.vscode/
+.gradle/
+ExportedObj/
+
+# ============================================================
+#  Sorties de build
+# ============================================================
+*.apk
+*.aab
+*.app
+*.unitypackage
+crashlytics-build.properties
+sysinfo.txt
+
+# ============================================================
+#  OS
+# ============================================================
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# ============================================================
+#  Backend Symfony — phase 3
+# ============================================================
+/backend/.env.local
+/backend/.env.*.local
+/backend/var/
+/backend/vendor/
+/backend/public/bundles/
+
+# ============================================================
+#  Secrets
+# ============================================================
+.env.local
+*.pem
+*.key
