@@ -129,14 +129,16 @@ namespace Oasis.EditorTools
                 var frame = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 frame.name = "Cadre";
                 frame.transform.SetParent(portal.transform, false);
-                frame.transform.localPosition = new Vector3(0f, 3.2f, 0.05f);
+                // Le cadre est EN ARRIERE de la lueur, et plus grand : il ne
+                // doit depasser que sur les bords, comme une bordure.
+                frame.transform.localPosition = new Vector3(0f, 3.2f, -0.1f);
                 frame.transform.localScale = new Vector3(4.4f, 6.4f, 0.3f);
                 Paint(frame, HubMaterials.White);
 
                 var glow = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 glow.name = "Lueur";
                 glow.transform.SetParent(portal.transform, false);
-                glow.transform.localPosition = new Vector3(0f, 3.2f, -0.15f);
+                glow.transform.localPosition = new Vector3(0f, 3.2f, 0.16f);
                 glow.transform.localScale = new Vector3(3.8f, 5.8f, 0.2f);
                 Paint(glow, HubMaterials.Portal);
                 // On traverse le portail : pas de collision.
@@ -146,7 +148,7 @@ namespace Oasis.EditorTools
                 // deborde sur le sol blanc au lieu de rester un rectangle.
                 var lightObject = new GameObject("Lumiere");
                 lightObject.transform.SetParent(portal.transform, false);
-                lightObject.transform.localPosition = new Vector3(0f, 3f, -1.5f);
+                lightObject.transform.localPosition = new Vector3(0f, 3f, 1.5f);
 
                 var light = lightObject.AddComponent<Light>();
                 light.type = LightType.Point;

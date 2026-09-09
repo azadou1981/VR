@@ -54,10 +54,15 @@ namespace Oasis.EditorTools
             light.intensity = 1.1f;
             light.shadows = LightShadows.Soft;
 
-            // Sans ambiante remontee, un decor blanc vire au gris sale : les
-            // faces qui ne recoivent pas le soleil n'ont plus rien.
-            RenderSettings.ambientMode = AmbientMode.Skybox;
-            RenderSettings.ambientIntensity = 1.25f;
+            // L'ambiante ciel seule teinte tout en bleu : les faces
+            // interieures des murs tournent le dos au soleil et ne recoivent
+            // plus que du ciel. En Trilight on ajoute une composante sol tres
+            // claire, qui simule le rebond sur le sol blanc et redonne du
+            // blanc aux murs.
+            RenderSettings.ambientMode = AmbientMode.Trilight;
+            RenderSettings.ambientSkyColor = new Color(0.60f, 0.66f, 0.78f);
+            RenderSettings.ambientEquatorColor = new Color(0.74f, 0.76f, 0.80f);
+            RenderSettings.ambientGroundColor = new Color(0.80f, 0.80f, 0.82f);
         }
 
         private static void CreateSpawnPoint()

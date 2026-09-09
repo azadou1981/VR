@@ -127,6 +127,22 @@ Détail architectural ajouté par `HubEnvironmentBuilder` : montants lumineux au
 
 **Coût perf** : 50 MeshRenderer, 7 lumières, 3 matériaux. Toujours négligeable.
 
+### Passage aux assets tiers
+
+Retour de Lou sur le hub généré aux primitives : moche, et beaucoup trop lent à construire. Il a raison, et il a aussi rappelé qu'il n'avait **jamais demandé une rotonde** — il voulait un grand bâtiment où se balader. La forme circulaire venait de moi, parce qu'elle était facile à générer. Erreur de ma part.
+
+Nouvelle méthode : **on assemble par script de vraies pièces modulaires**, au lieu de fabriquer des cubes. Lou garde le bénéfice du code, l'art vient de gens dont c'est le métier.
+
+**Pack retenu : [3D Scifi Kit Starter Kit](https://assetstore.unity.com/packages/3d/environments/3d-scifi-kit-starter-kit-92152)** de Creepy Cat. Gratuit, URP, maintenu, modulaire, low poly. 136 prefabs, 125 FBX.
+
+**Piège évité.** Le pack gratuit le plus recommandé partout, « Sci-Fi Futuristic Environment Pack v2.0 », est **Built-in uniquement**. Dans notre projet URP il s'afficherait entièrement en rose. Toujours vérifier le pipeline avant de télécharger — c'est la première chose à regarder sur une fiche Asset Store.
+
+**Piège suivant, dans le pack retenu lui-même.** Ce qui s'installe par défaut est la version Built-in : vérifié, **les 39 matériaux référencent des shaders Built-in** (`guid: 0000...f000...`). Le pack livre sa conversion URP dans un `.unitypackage` séparé, à importer par-dessus. Sans ça, tout est rose.
+
+**Stockage.** Le pack pèse 1,2 Go sur le disque, dont deux `.unitypackage` : 311 Mo pour la variante HDRP, inutile chez nous, et 261 Mo pour l'URP. GitHub ne donne qu'1 Go de LFS gratuit, **et 1 Go de bande passante par mois** — un seul push suffirait à tout consommer.
+
+Décision : `Assets/Creepy_Cat/` est dans `.gitignore`. Le pack est gratuit et retéléchargeable. On ne versionnera que les pièces réellement utilisées, recopiées dans nos propres dossiers.
+
 ### Prochaine étape
 
 Fin de la phase 0, ce qui reste passe par Lou et par le casque :

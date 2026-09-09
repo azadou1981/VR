@@ -88,3 +88,14 @@ $RECYCLE.BIN/
 .env.local
 *.pem
 *.key
+
+# ============================================================
+#  Packs d'assets tiers
+# ============================================================
+# 1,2 Go, retelechargeables gratuitement depuis l'Asset Store.
+# Les versionner ferait exploser le quota LFS gratuit de GitHub
+# (1 Go de stockage ET 1 Go de bande passante par mois).
+# On ne versionnera que les pieces reellement utilisees, recopiees
+# dans Assets/Prefabs/ et Assets/Materials/.
+/Assets/Creepy_Cat/
+/Assets/Creepy_Cat.meta
