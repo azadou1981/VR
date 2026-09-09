@@ -143,6 +143,20 @@ Nouvelle méthode : **on assemble par script de vraies pièces modulaires**, au 
 
 Décision : `Assets/Creepy_Cat/` est dans `.gitignore`. Le pack est gratuit et retéléchargeable. On ne versionnera que les pièces réellement utilisées, recopiées dans nos propres dossiers.
 
+### Premier bâtiment assemblé à partir du kit
+
+`KitInspector` mesure les prefabs avant tout assemblage. **Mesurer, pas deviner** : assembler à l'aveugle produit des murs qui ne se touchent pas.
+
+Piège rencontré dans la mesure elle-même. Une première version lisait `mesh.bounds`, qui est dans le repère du mesh — les modèles sont en **Z-up** et un sol ressortait en `6 x 6 x 0` avec l'épaisseur en Z. Il faut **instancier** le prefab et lire `Renderer.bounds` en repère monde, seul endroit où la rotation du prefab est prise en compte.
+
+Résultat : **module 6 m, murs 4 m de haut et 2 m d'épaisseur, pivots dans un coin** (une dalle s'étend en -X et +Z, d'où les `(i+1)` dans le code). Shader `Universal Render Pipeline/Lit` sur toutes les pièces : l'import URP a bien pris.
+
+`HubBuildingBuilder` assemble un hall de **48 × 48 m** : 64 dalles alternées, murs sur deux rangées (8 m), verrière centrale et toit plein en pourtour pour que la lumière tombe au centre, une ouverture au milieu de chaque façade. 190 instances de prefab, scène de 0,5 Mo.
+
+Une seule `TeleportationArea` sur une surface invisible, plutôt qu'une par dalle : 64 fois moins de composants à évaluer.
+
+**Limite connue, à traiter.** La scène référence des prefabs de `Assets/Creepy_Cat/`, qui est dans `.gitignore`. Le dépôt n'est donc **pas auto-suffisant** : un clone neuf ouvrirait le Hub avec des références manquantes. Tant qu'on est sur une seule machine ça ne gêne pas, et le pack est gratuit et retéléchargeable. À régler avant qu'une deuxième personne touche au projet, en recopiant les pièces réellement utilisées dans nos propres dossiers.
+
 ### Prochaine étape
 
 Fin de la phase 0, ce qui reste passe par Lou et par le casque :

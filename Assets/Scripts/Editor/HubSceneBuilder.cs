@@ -30,7 +30,7 @@ namespace Oasis.EditorTools
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
 
             ConfigureLighting();
-            HubEnvironmentBuilder.Build();
+            HubBuildingBuilder.Build();
             PrefabUtility.InstantiatePrefab(rig, scene);
             ComfortSetup.AddVignette();
             HubPostProcessing.Setup();
@@ -68,8 +68,8 @@ namespace Oasis.EditorTools
         private static void CreateSpawnPoint()
         {
             var go = new GameObject("Spawn Point");
-            // Legerement en retrait du centre, face aux portails.
-            go.transform.SetPositionAndRotation(new Vector3(0f, 0f, -6f), Quaternion.identity);
+            // Centre du hall : 8 dalles de 6 m par cote, donc 24 m.
+            go.transform.SetPositionAndRotation(new Vector3(24f, 0f, 18f), Quaternion.identity);
             go.AddComponent<SpawnPoint>();
             go.AddComponent<PlayerSpawner>();
         }
