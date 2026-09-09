@@ -66,9 +66,15 @@ Rappel : `git push` est dans la liste « demander d'abord » de `.claude/setting
 
 XRI livre un **XR Interaction Simulator** qui pilote le rig VR à la souris et au clavier : tête, deux manettes, grab, téléportation. Ça permet de valider toute la couche interaction sans casque, et donc de continuer quand le Quest charge ou n'est pas dispo.
 
-État constaté dans `Assets/XRI/Settings/Resources/XRDeviceSimulatorSettings.asset` : `m_AutomaticallyInstantiateSimulatorPrefab: 0` (désactivé) et `m_SimulatorPrefab: {fileID: 0}` (aucun prefab assigné). L'échantillon n'est donc pas encore importé.
+**Activé et vérifié en Play** : `m_AutomaticallyInstantiateSimulatorPrefab: 1`, prefab assigné, échantillon importé dans `Assets/Samples/XR Interaction Toolkit/3.5.1/XR Interaction Simulator/`.
 
 Activation, sans toucher à la scène : **Edit → Project Settings → XR Plug-in Management → XR Interaction Toolkit**, cocher **« Use XR Interaction Simulator in scenes »**. Unity propose alors d'importer l'échantillon, répondre **Ok** — il assigne le prefab tout seul. Le simulateur s'instancie ensuite à chaque Play, et uniquement dans l'Éditeur (`m_AutomaticallyInstantiateInEditorOnly: 1`), donc jamais dans un build.
+
+**Piège rencontré.** Cocher la case ne suffit pas : Unity garde le réglage en mémoire et ne l'écrit pas sur le disque. Sans **File → Save Project**, la case se retrouve décochée au redémarrage de l'Éditeur et le réglage n'est jamais committé. `Ctrl+S` n'y change rien, il n'enregistre que la scène.
+
+**Migrations de format déclenchées par cette session.** L'ouverture du projet a réécrit `SampleScene.unity` : TextMeshPro ajoute `m_characterHorizontalScale` et `m_ActiveFontFeatures`, les Rigidbody passent de `m_Drag`/`m_AngularDrag` à `m_LinearDamping`/`m_AngularDamping`, les lumières changent de masques de calques, et XRI ajoute `m_UnparentTransformOnGrab`. Vérifié avant commit : **zéro GameObject ajouté ou supprimé**, aucun changement fonctionnel. Committé exprès, sinon la migration se rejoue à chaque session.
+
+Le simulateur n'est pas inscrit dans la scène : il s'instancie au lancement, uniquement dans l'Éditeur. La scène reste donc propre.
 
 À noter : ça valide les *interactions*, pas la chaîne Quest→PC. Le test casque reste nécessaire pour clore la phase 0.
 
