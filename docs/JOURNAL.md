@@ -12,7 +12,15 @@
 - `.gitattributes` : 169 binaires en LFS (png, fbx, exr, wav, tif, webm, ttf, mp3), vérifié fichier par fichier avant le commit — zéro binaire stocké en clair.
 - Fins de ligne forcées en LF via `* text=auto eol=lf` dans `.gitattributes`. Git for Windows poussait au CRLF de deux façons : `core.autocrlf=true` dans le gitconfig système, et `core.eol=native`. Les deux sont neutralisés localement, mais le réglage est posé dans `.gitattributes` parce que `.git/config` ne se clone pas — sinon le problème reviendrait à chaque nouvelle machine.
 - Driver de fusion `UnityYAMLMerge` branché, avec `--fallback-none`.
-- `Assets/Scripts/` créé.
+- `Assets/Scripts/` créé, avec `Oasis.asmdef` (assembly `Oasis`, namespace racine `Oasis`, références XRI + XR Core Utils + XR Hands + Input System).
+
+**Pourquoi une asmdef.** Sans elle, tout notre code atterrit dans `Assembly-CSharp` avec les scripts du template : chaque modification d'un seul fichier recompile l'ensemble, et l'attente grossit à chaque script ajouté. Avec elle, Unity ne recompile que `Oasis`. C'est aussi ce qui rend la frontière « plateforme / mondes » réelle plutôt que déclarative : un monde qui voudra contourner les systèmes de la plateforme devra le faire explicitement, en ajoutant une référence d'assembly. L'équivalent Fabric le plus proche est un sous-module Gradle, ou une frontière de module Java.
+
+**Import validé en mode batch** (`Unity.exe -batchmode -quit`), sortie code 0. Aucune erreur de compilation, l'asmdef est reconnu et ses références résolues, les `.meta` sont générés et committés.
+
+  Limite à connaître : l'assembly `Oasis` n'est pas encore *compilée*, puisqu'elle ne contient aucun script. Unity a validé la syntaxe et la résolution des références, pas leur usage réel. La vraie validation viendra avec le premier `.cs`. Les quatre noms d'assembly ont été relevés directement dans les asmdef des packages, pas devinés.
+
+  À retenir : `Unity.exe -batchmode -quit -projectPath <projet> -logFile <log>` permet de vérifier qu'un projet compile sans ouvrir l'Éditeur. Utile pour ne pas te déranger à chaque changement de script. Ne marche pas si l'Éditeur est déjà ouvert (verrou `Temp/UnityLockfile`).
 
 ### Décisions prises
 
@@ -25,8 +33,23 @@ Réseau (Mirror vs FishNet) : toujours non tranché, comme prévu en phase 2.
 ### Constaté, non traité
 
 - **Aucun remote.** Le dépôt est local. Il faut créer le dépôt distant et pousser — voir « Prochaine étape ». Attention : GitHub ne donne qu'**1 Go de stockage LFS gratuit**, et un projet VR avec des assets achetés le dépasse vite.
-- **Packages inutiles pour du PCVR** dans `Packages/manifest.json` : `com.unity.xr.arfoundation`, `com.unity.xr.androidxr-openxr`, `com.unity.xr.meta-openxr`, `com.unity.learn.iet-framework`. Ils viennent du template. Les retirer allégerait les builds, mais le template les référence peut-être dans ses scènes : à faire proprement, pas à l'arrache, sinon on casse la règle 2 (le projet reste jouable en permanence).
+- **Packages inutiles pour du PCVR**, hérités du template : `com.unity.xr.arfoundation`, `com.unity.xr.androidxr-openxr`, `com.unity.xr.meta-openxr`, `com.unity.learn.iet-framework`.
+
+  Analyse faite par recoupement des GUID (tous les GUID exportés par ces packages, croisés avec tous les GUID référencés dans `Assets/`). **Aucune scène et aucun prefab ne les référence.** Les seules références sont :
+
+  | Package | Référencé uniquement par |
+  |---|---|
+  | `learn.iet-framework` | 4 assets dans `VRTemplateAssets/Tutorial/` (le tutoriel d'accueil Unity) |
+  | `androidxr-openxr` | `XR/Settings/OpenXRPackageSettings.asset`, entrées **Android** |
+  | `meta-openxr` | `XR/Settings/OpenXRPackageSettings.asset` |
+  | `arfoundation` | les 5 assets XR Simulation dans `XR/UserSimulationSettings/` et `XR/Loaders/` |
+
+  Donc le retrait est sûr pour la jouabilité. Il laisserait en revanche des assets de réglages orphelins à supprimer, et `OpenXRPackageSettings.asset` serait réécrit par Unity. **Reporté jusqu'au test casque** : sans baseline connue-bonne, un problème dans le casque deviendrait indémêlable entre « les packages » et « autre chose ». À reprendre juste après.
+
+  Note : XR Simulation (AR Foundation) simule des environnements AR, pas de la VR. L'outil sans casque qui nous concerne est le **XR Device Simulator**, livré avec XRI, qu'on garde.
 - Config XR déjà correcte pour PCVR : `OculusTouchControllerProfile` activé sur Standalone, loader OpenXR en place.
+
+- **`OpenXRPackageSettings.asset` bouge tout seul.** À l'import, Unity a repointé trois entrées Android XR vers des doublons strictement identiques du même fichier (mêmes noms, mêmes états, mêmes versions) : du bruit, aucun effet. Attends-toi à revoir ce diff de temps en temps. Les trois viennent du package `androidxr-openxr`, donc ça disparaîtra avec son retrait.
 - `m_SerializationMode: 2` (Force Text) — condition nécessaire pour que la fusion YAML marche. À ne pas changer.
 
 ### Prochaine étape
