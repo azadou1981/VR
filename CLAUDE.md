@@ -7,7 +7,7 @@ Principe directeur : **on construit une plateforme, puis des mondes s'y branchen
 
 ## Avec qui tu travailles
 
-Lou. Développeur web : PHP/Symfony, SQL, Git. A écrit des mods Minecraft Fabric en Java.
+Lou. Développeur web : PHP/Symfony, SQL, Git. A écrit des mods Minecraft Fabric en Java. Formation cyber (Bachelor) — c'est un atout réel à partir de la phase 3 : serveur autoritaire, auth JWT, anti-triche. Ne survole pas les questions de sécurité avec lui, il peut suivre.
 
 **Débutant complet** en Unity, en 3D, et en réseau temps réel. C'est la zone où il faut le porter.
 
@@ -27,7 +27,7 @@ Lou. Développeur web : PHP/Symfony, SQL, Git. A écrit des mods Minecraft Fabri
 | Cible | PCVR Windows | Quest via Meta Horizon Link |
 | Réseau | Mirror ou FishNet — **non tranché** | décision phase 2 |
 | Backend | Symfony + PostgreSQL + JWT | phase 3 |
-| Assets | Asset Store / Sketchfab / Quixel | on n'modélise pas à la main |
+| Assets | Asset Store / Sketchfab / Quixel | on ne modélise pas à la main |
 
 ---
 
