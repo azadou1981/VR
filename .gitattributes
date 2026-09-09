@@ -1,5 +1,9 @@
-# Normalisation des fins de ligne : LF dans le dépôt, natif à la copie.
-* text=auto
+# LF partout : dans le dépôt ET dans la copie de travail.
+# Unity écrit ses YAML en LF ; sans `eol=lf`, Git for Windows les
+# rendrait en CRLF à chaque clone (core.eol vaut `native` par défaut).
+# On le pose ici plutôt que dans .git/config, qui ne se clone pas.
+# Les binaires en LFS portent `-text` plus bas, ils ne sont pas touchés.
+* text=auto eol=lf
 
 # ============================================================
 #  YAML Unity — reste en TEXTE, pas en LFS
