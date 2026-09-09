@@ -35,8 +35,8 @@ Lou. Développeur web : PHP/Symfony, SQL, Git. A écrit des mods Minecraft Fabri
 
 **Phase 0 — mise en place.** En cours.
 
-Fait : Unity 6000.3.23f1, template VR en place (`SampleScene`, `BasicScene`), dépôt Git initialisé sur `main` avec LFS et fusion YAML Unity, `Assets/Scripts/` créé.
-Reste : pousser sur un remote, valider la chaîne Quest→PC, premier grab en VR.
+Fait : Unity 6000.3.23f1, template VR en place (`SampleScene`, `BasicScene`), dépôt Git sur `azadou1981/VR` avec LFS et fusion YAML Unity, assembly `Oasis` créée, `gh` installé.
+Reste : valider la chaîne Quest→PC dans le casque, premier grab en VR. Puis retrait des packages du template, analyse déjà faite dans le journal.
 
 Rappel Git : les scènes et prefabs restent en **texte**, jamais en LFS — c'est ce qui permet à `UnityYAMLMerge` de fusionner au lieu de forcer un choix entre deux versions.
 

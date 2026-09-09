@@ -52,10 +52,21 @@ Réseau (Mirror vs FishNet) : toujours non tranché, comme prévu en phase 2.
 - **`OpenXRPackageSettings.asset` bouge tout seul.** À l'import, Unity a repointé trois entrées Android XR vers des doublons strictement identiques du même fichier (mêmes noms, mêmes états, mêmes versions) : du bruit, aucun effet. Attends-toi à revoir ce diff de temps en temps. Les trois viennent du package `androidxr-openxr`, donc ça disparaîtra avec son retrait.
 - `m_SerializationMode: 2` (Force Text) — condition nécessaire pour que la fusion YAML marche. À ne pas changer.
 
+### Remote et flux de travail
+
+Dépôt distant en place : `azadou1981/VR`, branche `main`. Tout le travail de cette session y est poussé.
+
+Première PR passée par une branche (`feat/asmdef-oasis`, PR #1, mergée puis supprimée). À noter pour la suite : **ne pas committer directement sur `main` si on veut une PR**, sinon il n'y a rien à comparer — une PR `main → main` n'existe pas. Committer sur une branche dès le départ.
+
+GitHub CLI installé (`gh` 2.100.0, portée utilisateur, compte `azadou1981`, portées `repo` + `workflow`). Les prochaines PR se font en ligne de commande, sans passer par le navigateur.
+
+Rappel : `git push` est dans la liste « demander d'abord » de `.claude/settings.local.json`. C'est volontaire, mais ça veut dire que Lou pousse à la main. À changer si ça devient pénible.
+
 ### Prochaine étape
 
-Fin de la phase 0, ce qui reste passe par Lou :
+Fin de la phase 0, ce qui reste passe par Lou et par le casque :
 
-1. Créer le dépôt distant, puis `git remote add origin …` et `git push -u origin main`.
-2. Brancher le Quest en Horizon Link et valider le rendu dans le casque.
-3. Premier grab en VR dans `SampleScene`.
+1. Brancher le Quest en Horizon Link et valider le rendu dans le casque.
+2. Premier grab en VR dans `SampleScene`.
+
+**Puis, immédiatement après :** retrait des 4 packages du template (analyse déjà faite plus haut, il ne reste qu'à l'appliquer). Le faire sur une branche, avec un import batch de contrôle avant et après.
